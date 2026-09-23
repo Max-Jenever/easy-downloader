@@ -1,7 +1,9 @@
 mod diread;
+mod zipper;
 
 use std::env;
 use diread::{scan_directory, FileSystemEntryType};
+use zipper::archive_directory;
 
 fn main() {
     let current_dir = env::current_dir().expect("Не удалось получить рабочую директорию");
@@ -26,4 +28,13 @@ fn main() {
         }
         Err(e) => eprintln!("Ошибка сканирования: {}", e),
     }
+
+    let source = "~/my_projects/easy-downloader/src/test.c";
+    let destination = "~/my_projects/easy-downloader/src/test.tar.gz";
+
+    match archive_directory(source, destination) {
+        Ok(_) => println!("Директория успешно архивирована в {}", destination),
+        Err(e) => eprintln!("Ошибка при архивации: {}", e),
+    }
 }
+
